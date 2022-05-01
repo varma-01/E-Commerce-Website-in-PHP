@@ -1,0 +1,84 @@
+<?php session_start();?>
+
+<?php
+    require "components/_dbconnect.php";
+
+    $sql = "SELECT * FROM `products` WHERE `prod_id` = ".$_GET['id']." ";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+
+    $id= $row['prod_id'];
+    $name = $row['prod_name'];
+    $price = $row['prod_price'];
+    $specs = $row['prod_desc'];
+    $image = $row['prod_img'];
+
+    $desc = str_replace("/", "<li>", $specs);
+
+?>
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <title>payment page!</title>
+</head>
+
+<body>
+    <?php require "components/_nav.php";?>
+    <h1 class="text-center mt-2 py-2 bg-warning bg-gradient">Confirm the order</h1>
+
+    <?php 
+         $variable1 = $_GET['id'];
+         echo '<h1 class="text-center py-2 bg-danger bg-gradient">'.$variable1.'</h1>';
+    ?>
+
+    <div class="container" align="center">
+        <div class="card mb-3 bg-dark bg-gradient text-light" style="max-width: 900px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="<?php echo $image;?>" alt="Product Image" class="img-thumbnail">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h2 class="card-title text-start"><?php echo $name; ?></h2>
+                        <h3 class="card-title text-start">Rs. <?php echo $price; ?></h3>
+                        <p class="card-text text-start"><?php echo $desc?></p>
+                        <p class="card-text text-start"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center">
+        <form action="orderplaced.php" method="POST">
+            <input type="hidden" name="id" value="<?php echo $id; ?>">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>
